@@ -7,26 +7,18 @@ require 'passkeep2/version'
 Gem::Specification.new do |gem|
   gem.name          = "passkeep2"
   gem.version       = Passkeep2::VERSION
-  gem.summary       = %q{TODO: Summary}
-  gem.description   = %q{TODO: Description}
+  gem.summary       = %q{Password manager.}
+  gem.description   = %q{Passkeep2 is a convenient CLI for keeping passwords.}
   gem.license       = "MIT"
   gem.authors       = ["aarnwri"]
   gem.email         = "aarnwri@gmail.com"
   gem.homepage      = "https://rubygems.org/gems/passkeep2"
 
-  gem.files         = `git ls-files`.split($/)
+  gem.files         = Dir['CHANGELOG.md', 'README.md', 'LICENSE.txt', 'lib/**/*']
 
-  `git submodule --quiet foreach --recursive pwd`.split($/).each do |submodule|
-    submodule.sub!("#{Dir.pwd}/",'')
-
-    Dir.chdir(submodule) do
-      `git ls-files`.split($/).map do |subpath|
-        gem.files << File.join(submodule,subpath)
-      end
-    end
-  end
-  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
+  gem.executables   = Dir['bin/**/*'].map{ |f| File.basename(f) }
+  # gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
+  gem.test_files    = Dir['spec/**/*']
   gem.require_paths = ['lib']
 
   gem.add_development_dependency 'bundler', '~> 1.10'
