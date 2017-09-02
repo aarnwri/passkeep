@@ -20,6 +20,8 @@ Gem::Specification.new do |gem|
   gem.test_files    = Dir['spec/**/*']
   gem.require_paths = ['lib']
 
+  gem.add_dependency 'trollop', '~> 2.1', '>= 2.1.2'
+
   gem.add_development_dependency 'bundler', '~> 1.10'
   gem.add_development_dependency 'rake', '~> 10.0'
   gem.add_development_dependency 'rspec', '~> 3.0'
