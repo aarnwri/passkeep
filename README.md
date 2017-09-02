@@ -6,7 +6,7 @@
 
 ## Description
 
-TODO: Description
+Passkeep2 is a convenient CLI for keeping passwords.
 
 ## Features
 
