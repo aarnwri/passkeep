@@ -17,7 +17,6 @@ Gem::Specification.new do |gem|
   gem.files         = Dir['CHANGELOG.md', 'README.md', 'LICENSE.txt', 'lib/**/*']
 
   gem.executables   = Dir['bin/**/*'].map{ |f| File.basename(f) }
-  # gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = Dir['spec/**/*']
   gem.require_paths = ['lib']
 
