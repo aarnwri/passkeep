@@ -1,3 +1,28 @@
 #!/usr/bin/env ruby
 
-puts "running passkeep2 script..."
+require 'passkeep2'
+require 'io/console'
+require 'openssl'
+require 'digest'
+
+Passkeep2::Utils.ensure_passkeep_dir
+Passkeep2::Utils.ensure_vaults_dir
+
+print "Default vault password: "
+# read from STDIN silently
+password = STDIN.noecho(&:gets)
+
+vault = Passkeep2::Vault.new(name: Passkeep2::Utils::DEFAULT_VAULT, password: password)
+
+puts "vault.data: #{vault.data.inspect}"
+
+my_hash = {
+  "risetnri" => "irsetnir",
+  "riestnirse" => "irestnrin"
+}
+
+puts "my_hash: #{my_hash.inspect}"
+puts "updating vault..."
+vault.update(my_hash)
+
+puts "vault.data: #{vault.data.inspect}"
