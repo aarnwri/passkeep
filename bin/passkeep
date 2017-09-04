@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'passkeep'
+require 'trollop'
 require 'io/console'
 require 'openssl'
 require 'digest'
