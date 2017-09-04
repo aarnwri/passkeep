@@ -17,6 +17,8 @@ module Passkeep2
       @password = password
     end
 
+    # This is a getter method for the password data hash
+    #
     def data
       decrypt
       if File.readable?(vault_path)
@@ -31,6 +33,8 @@ module Passkeep2
       password_data
     end
 
+    # This is a setter method for the password data hash
+    #
     def update (data)
       if File.writable?(vault_path)
         File.open(vault_path, 'w') { |f| f.write data.to_yaml }
