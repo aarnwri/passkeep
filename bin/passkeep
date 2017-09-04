@@ -23,21 +23,14 @@ def get_key_name_password_conf (key_name)
   password = STDIN.noecho(&:gets)
 end
 
+#############
+### START ###
+#############
+
 Passkeep::Utils.ensure_passkeep_dir
 Passkeep::Utils.ensure_vaults_dir
 
-# print "Default vault password: "
-# # read from STDIN silently
-# password = STDIN.noecho(&:gets)
-#
-# vault = Passkeep::Vault.new(name: Passkeep::Utils::DEFAULT_VAULT, password: password)
-#
-
-####
 options = Passkeep::MainMenu.parse
-
-puts "options: #{options.inspect}"
-puts "ARGV: #{ARGV.inspect}"
 
 sub_command = ARGV.shift
 case sub_command
