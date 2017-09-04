@@ -28,10 +28,11 @@ module Passkeep
           end
           output = "Password data:\n"
           output << "\n"
-          output << "#{login}:\n"
-          output << "  password: ******\n"
-          output << "  url: #{@data[key_name][login]['url']}\n"
-          output << "  meta: #{@data[key_name][login]['meta']}"
+          output << "#{key_name}:\n"
+          output << "  #{login}:\n"
+          output << "    password: ******\n"
+          output << "    url: #{@data[key_name][login]['url']}\n"
+          output << "    meta: #{@data[key_name][login]['meta']}\n"
         end
       end
 
@@ -42,12 +43,13 @@ module Passkeep
       output = "Key name provided could not be found...\n"
       if @data[key_name]
         output = "Password data:\n"
+        output << "#{key_name}:\n"
         @data[key_name].each do |login, login_data|
           output << "\n"
-          output << "#{login}:\n"
-          output << "  password: *************\n"
-          output << "  url: #{login_data['url']}\n"
-          output << "  meta: #{login_data['meta']}"
+          output << "  #{login}:\n"
+          output << "    password: ******\n"
+          output << "    url: #{login_data['url']}\n"
+          output << "    meta: #{login_data['meta']}\n"
         end
       end
 
