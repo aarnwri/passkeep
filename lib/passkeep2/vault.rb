@@ -48,6 +48,7 @@ module Passkeep2
 
     private
 
+    # TODO: this method crashes when the wrong password is put in for the vault...
     def decrypt
       if File.exist?(vault_path) && File.readable?(vault_path) && File.writable?(vault_path)
         encrypted_file_content = File.read(vault_path)

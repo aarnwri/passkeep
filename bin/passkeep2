@@ -5,24 +5,87 @@ require 'io/console'
 require 'openssl'
 require 'digest'
 
+def get_vault_password
+  puts "Enter vault password:"
+  # read from STDIN silently
+  password = STDIN.noecho(&:gets)
+end
+
+def get_key_name_password (key_name)
+  puts "Enter #{key_name} password:"
+  # read from STDIN silently
+  password = STDIN.noecho(&:gets)
+end
+
+def get_key_name_password_conf (key_name)
+  puts "Confirm #{key_name} password:"
+  # read from STDIN silently
+  password = STDIN.noecho(&:gets)
+end
+
 Passkeep2::Utils.ensure_passkeep_dir
 Passkeep2::Utils.ensure_vaults_dir
 
-print "Default vault password: "
-# read from STDIN silently
-password = STDIN.noecho(&:gets)
+# print "Default vault password: "
+# # read from STDIN silently
+# password = STDIN.noecho(&:gets)
+#
+# vault = Passkeep2::Vault.new(name: Passkeep2::Utils::DEFAULT_VAULT, password: password)
+#
 
-vault = Passkeep2::Vault.new(name: Passkeep2::Utils::DEFAULT_VAULT, password: password)
+####
+options = Passkeep2::MainMenu.parse
 
-puts "vault.data: #{vault.data.inspect}"
+puts "options: #{options.inspect}"
+puts "ARGV: #{ARGV.inspect}"
 
-my_hash = {
-  "risetnri" => "irsetnir",
-  "riestnirse" => "irestnrin"
-}
+sub_command = ARGV.shift
+case sub_command
+when 'add'
+  add_options = Passkeep2::AddMenu.parse
 
-puts "my_hash: #{my_hash.inspect}"
-puts "updating vault..."
-vault.update(my_hash)
+  key_name = add_options[:key_name]
+  login    = add_options[:login]
+  url      = add_options[:url]
+  meta     = add_options[:meta]
 
-puts "vault.data: #{vault.data.inspect}"
+  password      = get_key_name_password(key_name)
+  password_conf = get_key_name_password_conf(key_name)
+
+  if password != password_conf
+    puts "You can't type... try that again."
+    exit(1)
+  end
+
+  vault_password = get_vault_password
+  vault = Passkeep2::Vault.new(name: Passkeep2::Utils::DEFAULT_VAULT, password: vault_password)
+
+  password_data_manager = Passkeep2::PasswordDataManager.new(vault.data)
+  password_data_manager.set_password(key_name, login, password)
+  password_data_manager.set_url(key_name, login, url) if url
+  password_data_manager.set_meta(key_name, login, meta) if meta
+
+  vault.update(password_data_manager.data)
+when 'show'
+  show_options = Passkeep2::ShowMenu.parse
+
+  key_name  = show_options[:key_name]
+  login     = show_options[:login]
+  clipboard = show_options[:clipboard]
+
+  vault_password = get_vault_password
+  vault = Passkeep2::Vault.new(name: Passkeep2::Utils::DEFAULT_VAULT, password: vault_password)
+
+  password_data_manager = Passkeep2::PasswordDataManager.new(vault.data)
+  if login && clipboard
+    info_str = password_data_manager.show_login_info(key_name, login, clipboard: true)
+  elsif login
+    info_str = password_data_manager.show_login_info(key_name, login)
+  else
+    info_str = password_data_manager.show_key_info(key_name)
+  end
+
+  puts info_str
+else
+  Trollop::die "unknown subcommand #{sub_command.inspect}"
+end
