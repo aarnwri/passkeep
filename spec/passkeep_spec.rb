@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'passkeep2'
+require 'passkeep'
 
-describe Passkeep2 do
+describe Passkeep do
   it "should have a VERSION constant" do
     expect(subject.const_get('VERSION')).to_not be_empty
   end

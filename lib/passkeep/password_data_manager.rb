@@ -1,6 +1,6 @@
 require 'clipboard'
 
-module Passkeep2
+module Passkeep
 
   # This class manages the password data hash
   # The format of this hash shoul look something like this:

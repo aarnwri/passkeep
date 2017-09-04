@@ -5,7 +5,7 @@ require 'digest'
 require 'yaml'
 require 'fileutils'
 
-module Passkeep2
+module Passkeep
   # The Vault is what keeps passwords safe
   #
   class Vault
@@ -73,7 +73,7 @@ module Passkeep2
     end
 
     def vault_path
-      File.join(Passkeep2::Utils::VAULTS_DIR, "#{@name}.yaml")
+      File.join(Passkeep::Utils::VAULTS_DIR, "#{@name}.yaml")
     end
 
     def new_encryption_cipher

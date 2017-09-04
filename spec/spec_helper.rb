@@ -1,4 +1,4 @@
 require 'rspec'
-require 'passkeep2/version'
+require 'passkeep/version'
 
-include Passkeep2
+include Passkeep

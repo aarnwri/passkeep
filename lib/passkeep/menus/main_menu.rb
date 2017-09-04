@@ -1,6 +1,6 @@
 require 'trollop'
 
-module Passkeep2
+module Passkeep
   class MainMenu
     SUB_COMMANDS = [
       'add',

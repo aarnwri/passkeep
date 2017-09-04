@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'passkeep2'
+require 'passkeep'
 require 'io/console'
 require 'openssl'
 require 'digest'
@@ -23,18 +23,18 @@ def get_key_name_password_conf (key_name)
   password = STDIN.noecho(&:gets)
 end
 
-Passkeep2::Utils.ensure_passkeep_dir
-Passkeep2::Utils.ensure_vaults_dir
+Passkeep::Utils.ensure_passkeep_dir
+Passkeep::Utils.ensure_vaults_dir
 
 # print "Default vault password: "
 # # read from STDIN silently
 # password = STDIN.noecho(&:gets)
 #
-# vault = Passkeep2::Vault.new(name: Passkeep2::Utils::DEFAULT_VAULT, password: password)
+# vault = Passkeep::Vault.new(name: Passkeep::Utils::DEFAULT_VAULT, password: password)
 #
 
 ####
-options = Passkeep2::MainMenu.parse
+options = Passkeep::MainMenu.parse
 
 puts "options: #{options.inspect}"
 puts "ARGV: #{ARGV.inspect}"
@@ -42,7 +42,7 @@ puts "ARGV: #{ARGV.inspect}"
 sub_command = ARGV.shift
 case sub_command
 when 'add'
-  add_options = Passkeep2::AddMenu.parse
+  add_options = Passkeep::AddMenu.parse
 
   key_name = add_options[:key_name]
   login    = add_options[:login]
@@ -58,25 +58,25 @@ when 'add'
   end
 
   vault_password = get_vault_password
-  vault = Passkeep2::Vault.new(name: Passkeep2::Utils::DEFAULT_VAULT, password: vault_password)
+  vault = Passkeep::Vault.new(name: Passkeep::Utils::DEFAULT_VAULT, password: vault_password)
 
-  password_data_manager = Passkeep2::PasswordDataManager.new(vault.data)
+  password_data_manager = Passkeep::PasswordDataManager.new(vault.data)
   password_data_manager.set_password(key_name, login, password)
   password_data_manager.set_url(key_name, login, url) if url
   password_data_manager.set_meta(key_name, login, meta) if meta
 
   vault.update(password_data_manager.data)
 when 'show'
-  show_options = Passkeep2::ShowMenu.parse
+  show_options = Passkeep::ShowMenu.parse
 
   key_name  = show_options[:key_name]
   login     = show_options[:login]
   clipboard = show_options[:clipboard]
 
   vault_password = get_vault_password
-  vault = Passkeep2::Vault.new(name: Passkeep2::Utils::DEFAULT_VAULT, password: vault_password)
+  vault = Passkeep::Vault.new(name: Passkeep::Utils::DEFAULT_VAULT, password: vault_password)
 
-  password_data_manager = Passkeep2::PasswordDataManager.new(vault.data)
+  password_data_manager = Passkeep::PasswordDataManager.new(vault.data)
   if login && clipboard
     info_str = password_data_manager.show_login_info(key_name, login, clipboard: true)
   elsif login

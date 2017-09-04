@@ -1,6 +1,6 @@
 require 'fileutils'
 
-module Passkeep2
+module Passkeep
   module Utils
     PASSKEEP_DIR  = File.join(Dir.home, '.passkeep')
     VAULTS_DIR    = File.join(PASSKEEP_DIR, 'vaults')

@@ -2,17 +2,17 @@
 
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'passkeep2/version'
+require 'passkeep/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "passkeep2"
-  gem.version       = Passkeep2::VERSION
+  gem.name          = "passkeep"
+  gem.version       = Passkeep::VERSION
   gem.summary       = %q{Password manager.}
-  gem.description   = %q{Passkeep2 is a convenient CLI for keeping passwords.}
+  gem.description   = %q{Passkeep is a convenient CLI for keeping passwords.}
   gem.license       = "MIT"
   gem.authors       = ["aarnwri"]
   gem.email         = "aarnwri@gmail.com"
-  gem.homepage      = "https://rubygems.org/gems/passkeep2"
+  gem.homepage      = "https://rubygems.org/gems/passkeep"
 
   gem.files         = Dir['CHANGELOG.md', 'README.md', 'LICENSE.txt', 'lib/**/*']
 

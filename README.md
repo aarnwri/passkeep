@@ -1,24 +1,24 @@
-# passkeep2
+# passkeep
 
-* [Homepage](https://rubygems.org/gems/passkeep2)
-* [Documentation](http://rubydoc.info/gems/passkeep2/frames)
+* [Homepage](https://rubygems.org/gems/passkeep)
+* [Documentation](http://rubydoc.info/gems/passkeep/frames)
 * [Email](mailto:aarnwri at gmail.com)
 
 ## Description
 
-Passkeep2 is a convenient CLI for keeping passwords.
+Passkeep is a convenient CLI for keeping passwords.
 
 ## Features
 
 ## Examples
 
-    require 'passkeep2'
+    require 'passkeep'
 
 ## Requirements
 
 ## Install
 
-    $ gem install passkeep2
+    $ gem install passkeep
 
 ## Copyright
 
