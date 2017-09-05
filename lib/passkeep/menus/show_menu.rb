@@ -16,8 +16,9 @@ Options:
       Trollop::options do
         banner BANNER
 
-        opt :key_name, "Key name to identify the needed password information.", type: :string, required: true
-        opt :login, "Login name to identify the needed password information.", type: :string
+        opt :all, "Show all keys", type: :boolean
+        opt :key_name, "Key name to identify the needed password information. (required when used with clipboard option)", type: :string
+        opt :login, "Login name to identify the needed password information. (required when used with clipboard option)", type: :string
         opt :clipboard, "Copy password associated with login to clipboard.", type: :boolean
       end
     end

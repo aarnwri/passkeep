@@ -18,44 +18,6 @@ module Passkeep
       @data = data
     end
 
-    def show_login_info (key_name, login, options={})
-      output = "Key name provided could not be found...\n"
-      if @data[key_name]
-        output = "Login provided could not be found...\n"
-        if @data[key_name][login]
-          if options[:clipboard]
-            Clipboard.copy(@data[key_name][login]['password'].strip)
-          end
-          output = "Password data:\n"
-          output << "\n"
-          output << "#{key_name}:\n"
-          output << "  #{login}:\n"
-          output << "    password: ******\n"
-          output << "    url: #{@data[key_name][login]['url']}\n"
-          output << "    meta: #{@data[key_name][login]['meta']}\n"
-        end
-      end
-
-      output
-    end
-
-    def show_key_info (key_name)
-      output = "Key name provided could not be found...\n"
-      if @data[key_name]
-        output = "Password data:\n"
-        output << "#{key_name}:\n"
-        @data[key_name].each do |login, login_data|
-          output << "\n"
-          output << "  #{login}:\n"
-          output << "    password: ******\n"
-          output << "    url: #{login_data['url']}\n"
-          output << "    meta: #{login_data['meta']}\n"
-        end
-      end
-
-      output
-    end
-
     def set_password (key_name, login, password)
       ensure_login(key_name, login)
       @data[key_name][login]['password'] = password

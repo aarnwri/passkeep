@@ -63,23 +63,28 @@ when 'add'
 when 'show'
   show_options = Passkeep::ShowMenu.parse
 
+  all       = show_options[:all]
   key_name  = show_options[:key_name]
   login     = show_options[:login]
   clipboard = show_options[:clipboard]
 
   vault_password = get_vault_password
   vault = Passkeep::Vault.new(name: Passkeep::Utils::DEFAULT_VAULT, password: vault_password)
+  formatter = Passkeep::PasswordDataFormatter.new(vault.data)
 
-  password_data_manager = Passkeep::PasswordDataManager.new(vault.data)
-  if login && clipboard
-    info_str = password_data_manager.show_login_info(key_name, login, clipboard: true)
-  elsif login
-    info_str = password_data_manager.show_login_info(key_name, login)
-  else
-    info_str = password_data_manager.show_key_info(key_name)
+  if clipboard
+    raise "--key-name option required when --clipboard option specified" unless key_name
+    raise "--login option required when --clipboard option specified" unless login
+    formatter.render_password_to_clipboard(key_name, login)
   end
 
-  puts info_str
+  if all
+    puts formatter.str_all_keys(filter: {key_name: key_name, login: login} )
+  elsif key_name
+    puts formatter.str_key_name(key_name, filter: {login: login} )
+  elsif login
+    raise "--all or --key-name required when --login option used"
+  end
 else
   Trollop::die "unknown subcommand #{sub_command.inspect}"
 end
