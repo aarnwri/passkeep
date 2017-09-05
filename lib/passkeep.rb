@@ -1,5 +1,4 @@
 require 'passkeep/version'
-require 'passkeep/utils'
 
 require 'passkeep/vault'
 require 'passkeep/password_data_manager'

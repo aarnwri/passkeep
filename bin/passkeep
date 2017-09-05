@@ -28,9 +28,6 @@ end
 ### START ###
 #############
 
-Passkeep::Utils.ensure_passkeep_dir
-Passkeep::Utils.ensure_vaults_dir
-
 options = Passkeep::MainMenu.parse
 
 sub_command = ARGV.shift
@@ -52,7 +49,7 @@ when 'add'
   end
 
   vault_password = get_vault_password
-  vault = Passkeep::Vault.new(name: Passkeep::Utils::DEFAULT_VAULT, password: vault_password)
+  vault = Passkeep::Vault.new(password: vault_password)
 
   password_data_manager = Passkeep::PasswordDataManager.new(vault.data)
   password_data_manager.set_password(key_name, login, password)
@@ -69,7 +66,7 @@ when 'show'
   clipboard = show_options[:clipboard]
 
   vault_password = get_vault_password
-  vault = Passkeep::Vault.new(name: Passkeep::Utils::DEFAULT_VAULT, password: vault_password)
+  vault = Passkeep::Vault.new(password: vault_password)
   formatter = Passkeep::PasswordDataFormatter.new(vault.data)
 
   if clipboard

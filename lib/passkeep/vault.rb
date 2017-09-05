@@ -1,5 +1,3 @@
-require_relative './utils'
-
 require 'openssl'
 require 'digest'
 require 'yaml'
@@ -9,19 +7,23 @@ module Passkeep
   # The Vault is what keeps passwords safe
   #
   class Vault
+    VAULTS_DIR    = File.join(Dir.home, '.passkeep', 'vaults')
+    DEFAULT_VAULT = 'default'
 
     # @param name [String] The filename reference to the vault
     # @param password [String] The password that should be used to encrypt/decrypt the vault
-    def initialize (name:, password:)
-      @name     = name
+    def initialize (name: nil, password:)
+      @name     = name || DEFAULT_VAULT
       @password = password
+
+      ensure_vaults_dir
     end
 
     # This is a getter method for the password data hash
     #
     def data
       return {} unless File.exist?(vault_path)
-      
+
       encrypted_file_content = File.open(vault_path, 'rb') { |f| f.read }
       cipher = new_decryption_cipher
       decrypted_file_content = cipher.update(encrypted_file_content) + cipher.final
@@ -41,8 +43,14 @@ module Passkeep
 
     private
 
+    def ensure_vaults_dir
+      # TODO: test for mkdir failure
+      # TODO: make sure this directory is writable
+      FileUtils.mkdir_p(VAULTS_DIR, :mode => 0700) unless Dir.exist?(VAULTS_DIR)
+    end
+
     def vault_path
-      File.join(Passkeep::Utils::VAULTS_DIR, "#{@name}.yaml")
+      File.join(VAULTS_DIR, "#{@name}.yaml")
     end
 
     def new_encryption_cipher
