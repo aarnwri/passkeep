@@ -44,8 +44,7 @@ when 'add'
   password_conf = get_login_password_conf(key_name, login)
 
   if password != password_conf
-    puts "You can't type... try that again."
-    exit(1)
+    raise "Password does not match confirmation password"
   end
 
   vault_password = get_vault_password
