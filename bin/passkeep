@@ -9,19 +9,19 @@ require 'digest'
 def get_vault_password
   puts "Enter vault password:"
   # read from STDIN silently
-  password = STDIN.noecho(&:gets)
+  password = STDIN.noecho(&:gets).strip
 end
 
 def get_key_name_password (key_name)
   puts "Enter #{key_name} password:"
   # read from STDIN silently
-  password = STDIN.noecho(&:gets)
+  password = STDIN.noecho(&:gets).strip
 end
 
 def get_key_name_password_conf (key_name)
   puts "Confirm #{key_name} password:"
   # read from STDIN silently
-  password = STDIN.noecho(&:gets)
+  password = STDIN.noecho(&:gets).strip
 end
 
 #############
