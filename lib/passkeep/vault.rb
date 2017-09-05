@@ -20,57 +20,24 @@ module Passkeep
     # This is a getter method for the password data hash
     #
     def data
-      decrypt
-      if File.readable?(vault_path)
-        password_data = YAML.load_file(vault_path)
-        encrypt
-      else
-        encrypt
-        puts "Could not read vault at #{vault_path}."
-        exit(1)
-      end
+      encrypted_file_content = File.open(vault_path, 'rb') { |f| f.read }
+      cipher = new_decryption_cipher
+      decrypted_file_content = cipher.update(encrypted_file_content) + cipher.final
 
-      password_data
+      password_data = YAML.load(decrypted_file_content)
     end
 
     # This is a setter method for the password data hash
     #
     def update (data)
-      if File.writable?(vault_path)
-        File.open(vault_path, 'w') { |f| f.write data.to_yaml }
-        FileUtils.chmod(0600, vault_path)
-      else
-        puts "Could not write to vault at #{vault_path}."
-        exit(1)
-      end
-      encrypt
+      cipher = new_encryption_cipher
+      encrypted_file_content = cipher.update(data.to_yaml) + cipher.final
+
+      File.open(vault_path, 'wb') { |f| f.write(encrypted_file_content) }
+      FileUtils.chmod(0600, vault_path)
     end
 
     private
-
-    # TODO: this method crashes when the wrong password is put in for the vault...
-    def decrypt
-      if File.exist?(vault_path) && File.readable?(vault_path) && File.writable?(vault_path)
-        encrypted_file_content = File.read(vault_path)
-        cipher = new_decryption_cipher
-        decrypted_file_content = cipher.update(encrypted_file_content) + cipher.final
-        File.write(vault_path, decrypted_file_content)
-      elsif File.exist?(vault_path)
-        # we don't have proper access...
-        puts "Not enough permissions on vault at #{vault_path}."
-        exit(1)
-      else
-        # we must not have created this vault yet...
-        File.open(vault_path, 'w') { |f| f.write({}.to_yaml) }
-      end
-    end
-
-    def encrypt
-      decrypted_file_content = File.read(vault_path)
-      cipher = new_encryption_cipher
-      encrypted_file_content = cipher.update(decrypted_file_content) + cipher.final
-      File.write(vault_path, encrypted_file_content)
-    end
 
     def vault_path
       File.join(Passkeep::Utils::VAULTS_DIR, "#{@name}.yaml")
