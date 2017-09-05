@@ -12,14 +12,14 @@ def get_vault_password
   password = STDIN.noecho(&:gets).strip
 end
 
-def get_key_name_password (key_name)
-  puts "Enter #{key_name} password:"
+def get_login_password (key_name, login)
+  puts "Enter #{key_name} password for login #{login}:"
   # read from STDIN silently
   password = STDIN.noecho(&:gets).strip
 end
 
-def get_key_name_password_conf (key_name)
-  puts "Confirm #{key_name} password:"
+def get_login_password_conf (key_name, login)
+  puts "Confirm #{key_name} password for login #{login}:"
   # read from STDIN silently
   password = STDIN.noecho(&:gets).strip
 end
@@ -43,8 +43,8 @@ when 'add'
   url      = add_options[:url]
   meta     = add_options[:meta]
 
-  password      = get_key_name_password(key_name)
-  password_conf = get_key_name_password_conf(key_name)
+  password      = get_login_password(key_name, login)
+  password_conf = get_login_password_conf(key_name, login)
 
   if password != password_conf
     puts "You can't type... try that again."

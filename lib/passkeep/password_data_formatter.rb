@@ -24,6 +24,7 @@ module Passkeep
         if options[:filter] && options[:filter][:key_name]
           next unless key_name == options[:filter][:key_name]
         end
+        str << "#{key_name}:\n"
         str << str_key_name(key_name, options)
         str << "\n"
       end
