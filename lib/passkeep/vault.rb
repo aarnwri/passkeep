@@ -20,6 +20,8 @@ module Passkeep
     # This is a getter method for the password data hash
     #
     def data
+      return {} unless File.exist?(vault_path)
+      
       encrypted_file_content = File.open(vault_path, 'rb') { |f| f.read }
       cipher = new_decryption_cipher
       decrypted_file_content = cipher.update(encrypted_file_content) + cipher.final
